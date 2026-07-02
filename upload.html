@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Upload | Iklil ♥ Lyin</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="js/supabase.js"></script>
+
+  <style>
+    body {
+      font-family: Georgia;
+      background: #fffaf3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .box {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 300px;
+    }
+
+    button {
+      background: #a3b18a;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #ffb3c1;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+  <h2>📸 Upload Photo</h2>
+
+  <input type="file" id="fileInput" accept="image/*">
+  <br>
+
+  <button onclick="uploadImage()">Upload</button>
+
+  <p id="status"></p>
+</div>
+
+<script src="js/upload.js"></script>
+
+</body>
+</html>
