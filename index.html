@@ -74,5 +74,77 @@
 
 </div>
 
-</body>
+<script type="module">
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+  const SUPABASE_URL = "sb_publishable_Mhl5eY13o9XaidSQqHmVsA_dkW-Q1y4";
+  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ6a2p3ZWp2enJ1bXNtbm9oeHh5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI4OTE5MTcsImV4cCI6MjA5ODQ2NzkxN30.L0qnYwFWtmSZ9eIxlkwAk_39Ost2Fdu82-Etw_KNceg";
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  const bucket = "wedding-photos";
+
+  // 📸 UPLOAD IMAGE
+  window.uploadImage = async function () {
+    const file = document.getElementById("fileInput").files[0];
+    const status = document.getElementById("status");
+
+    if (!file) {
+      alert("Please select a photo");
+      return;
+    }
+
+    status.innerText = "Uploading... 💖";
+
+    const fileName = Date.now() + "-" + file.name;
+
+    const { data, error } = await supabase.storage
+      .from(bucket)
+      .upload(fileName, file);
+
+    if (error) {
+      console.log(error);
+      status.innerText = "Upload failed ❌";
+      return;
+    }
+
+    status.innerText = "Uploaded successfully 🎉";
+
+    loadImages();
+  };
+
+  // 🖼 LOAD GALLERY
+  async function loadImages() {
+    const { data, error } = await supabase.storage
+      .from(bucket)
+      .list();
+
+    if (error) return;
+
+    const gallery = document.getElementById("gallery");
+    gallery.innerHTML = "";
+
+    data.forEach(file => {
+      const url = supabase.storage
+        .from(bucket)
+        .getPublicUrl(file.name).data.publicUrl;
+
+      const img = document.createElement("img");
+      img.src = url;
+      img.style.width = "100%";
+      img.style.borderRadius = "10px";
+
+      gallery.appendChild(img);
+    });
+  }
+
+  loadImages();
+</script><<h2>Iklil ❤️ Lyin Wedding Upload</h2>
+
+<input type="file" id="fileInput" accept="image/*">
+<button onclick="uploadImage()">Upload Photo</button>
+
+<p id="status"></p>
+
+<div id="gallery" style="display:grid;gap:10px;grid-template-columns:repeat(2,1fr);"></div>>
 </html>
