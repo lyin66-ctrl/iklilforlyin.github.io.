@@ -1,150 +1,222 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Iklil & Lyin Wedding</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iklil ♥ Lyin</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Cormorant Garamond';
-      background: linear-gradient(135deg, #FAF8F4, #E8D8C4,);
-      color: olive green;
-      text-align: center;
-    }
+<style>
+:root {
+  --ivory: #fffaf3;
+  --matcha: #a3b18a;
+  --strawberry: #ffb3c1;
+  --mocha: #3b2f2f;
+  --gold: #d4af37;
+}
 
-    .container {
-      padding: 50px 20px;
-    }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Georgia", serif;
+}
 
-    h1 {
-      font-size: 40px;
-      margin-bottom: 10px;
-    }
+body {
+  background: var(--ivory);
+  height: 100vh;
+  overflow: hidden;
+}
 
-    .date {
-      font-size: 18px;
-      margin-bottom: 30px;
-    }
+/* ===== INTRO SCREEN ===== */
+#intro {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #fffaf3, #f7efe7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 10;
+  transition: opacity 1.2s ease;
+}
 
-    button {
-      padding: 15px 25px;
-      border: none;
-      border-radius: 25px;
-      margin: 10px;
-      font-size: 16px;
-      cursor: pointer;
-    }
+.title {
+  font-size: 2.5rem;
+  color: var(--mocha);
+  letter-spacing: 2px;
+}
 
-    .upload {
-      background: champagne;
-      color: #D86A7A;
-    }
+.heart {
+  font-size: 2rem;
+  color: var(--strawberry);
+  animation: pulse 1.5s infinite;
+  margin: 10px 0;
+}
 
-    .gallery {
-      background: #D86A7A;
-      color: champagne;
-      border: 2px champagne;
-    }
+.subtitle {
+  font-size: 1rem;
+  color: var(--matcha);
+  margin-top: 10px;
+}
 
-    audio {
-      margin-top: 20px;
-    }
-  </style>
+button {
+  margin-top: 25px;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 30px;
+  background: var(--matcha);
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  transition: 0.3s;
+}
+
+button:hover {
+  background: var(--strawberry);
+}
+
+/* ===== MAIN PAGE ===== */
+#main {
+  opacity: 0;
+  transform: scale(1.05);
+  transition: 1.2s ease;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.card {
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.4);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+}
+
+h1 {
+  font-size: 2.2rem;
+  color: var(--mocha);
+}
+
+h2 {
+  font-size: 1rem;
+  color: var(--matcha);
+  margin-top: 10px;
+  letter-spacing: 2px;
+}
+
+.date {
+  margin-top: 15px;
+  color: var(--gold);
+  font-weight: bold;
+}
+
+.tag {
+  margin-top: 10px;
+  color: var(--strawberry);
+}
+
+/* floating petals */
+.petal {
+  position: absolute;
+  top: -10px;
+  color: rgba(255,179,193,0.7);
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+</style>
 </head>
 
 <body>
 
-<div class="container">
+<!-- ===== INTRO ===== -->
+<div id="intro">
+  <div class="title">Iklil</div>
+  <div class="heart">♥</div>
+  <div class="title">Lyin</div>
 
-  <h1>IKLIL ❤️ LYIN</h1>
-  <div class="date">18 July 2026</div>
+  <div class="subtitle">18 July 2026</div>
 
-  <p>“Every picture tells a story.”</p>
-
-  <button class="upload">📸 Upload Photos</button>
-  <button class="gallery">🖼 View Gallery</button>
-
-  <br>
-
-  <!-- Wedding piano music -->
-  <audio controls autoplay loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-  </audio>
-
+  <button onclick="enterSite()">Enter Our Wedding</button>
 </div>
 
-<script type="module">
-  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+<!-- ===== MAIN ===== -->
+<div id="main">
+  <div class="card">
+    <h1>Iklil ♥ Lyin</h1>
+    <h2>Every love story is beautiful, but ours is our favourite</h2>
+    <div class="date">18 July 2026</div>
+    <div class="tag">#IklilForLyin</div>
+  </div>
+</div>
 
-  const SUPABASE_URL = "sb_publishable_Mhl5eY13o9XaidSQqHmVsA_dkW-Q1y4";
-  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ6a2p3ZWp2enJ1bXNtbm9oeHh5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI4OTE5MTcsImV4cCI6MjA5ODQ2NzkxN30.L0qnYwFWtmSZ9eIxlkwAk_39Ost2Fdu82-Etw_KNceg";
+<!-- ===== MUSIC ===== -->
+<audio id="music" loop>
+  <source src="assets/music.mp3" type="audio/mp3">
+</audio>
 
-  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+<script>
+// ===== ENTER FUNCTION =====
+function enterSite() {
+  const intro = document.getElementById("intro");
+  const main = document.getElementById("main");
+  const music = document.getElementById("music");
 
-  const bucket = "wedding-photos";
+  // fade out intro
+  intro.style.opacity = "0";
 
-  // 📸 UPLOAD IMAGE
-  window.uploadImage = async function () {
-    const file = document.getElementById("fileInput").files[0];
-    const status = document.getElementById("status");
+  setTimeout(() => {
+    intro.style.display = "none";
+    main.style.opacity = "1";
+    main.style.transform = "scale(1)";
+    document.body.style.overflow = "auto";
+  }, 1000);
 
-    if (!file) {
-      alert("Please select a photo");
-      return;
-    }
+  // play music (user interaction allowed)
+  music.play().catch(err => {
+    console.log("Music blocked until interaction");
+  });
 
-    status.innerText = "Uploading... 💖";
+  startPetals();
+}
 
-    const fileName = Date.now() + "-" + file.name;
+// ===== FLOATING PETALS =====
+function startPetals() {
+  for (let i = 0; i < 20; i++) {
+    let petal = document.createElement("div");
+    petal.classList.add("petal");
+    petal.innerHTML = "🌸";
 
-    const { data, error } = await supabase.storage
-      .from(bucket)
-      .upload(fileName, file);
+    petal.style.left = Math.random() * 100 + "vw";
+    petal.style.animationDuration = (5 + Math.random() * 5) + "s";
+    petal.style.fontSize = (12 + Math.random() * 20) + "px";
 
-    if (error) {
-      console.log(error);
-      status.innerText = "Upload failed ❌";
-      return;
-    }
+    document.body.appendChild(petal);
 
-    status.innerText = "Uploaded successfully 🎉";
-
-    loadImages();
-  };
-
-  // 🖼 LOAD GALLERY
-  async function loadImages() {
-    const { data, error } = await supabase.storage
-      .from(bucket)
-      .list();
-
-    if (error) return;
-
-    const gallery = document.getElementById("gallery");
-    gallery.innerHTML = "";
-
-    data.forEach(file => {
-      const url = supabase.storage
-        .from(bucket)
-        .getPublicUrl(file.name).data.publicUrl;
-
-      const img = document.createElement("img");
-      img.src = url;
-      img.style.width = "100%";
-      img.style.borderRadius = "10px";
-
-      gallery.appendChild(img);
-    });
+    setTimeout(() => {
+      petal.remove();
+    }, 10000);
   }
 
-  loadImages();
-</script><<h2>Iklil ❤️ Lyin Wedding Upload</h2>
+  setInterval(startPetals, 4000);
+}
+</script>
 
-<input type="file" id="fileInput" accept="image/*">
-<button onclick="uploadImage()">Upload Photo</button>
-
-<p id="status"></p>
-
-<div id="gallery" style="display:grid;gap:10px;grid-template-columns:repeat(2,1fr);"></div>>
+</body>
 </html>
