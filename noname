@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Iklil & Lyin Wedding</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&family=Poppins&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins';
+      background: linear-gradient(135deg, #7A8F65, #D86A7A);
+      color: #fff;
+      text-align: center;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond';
+      font-size: 42px;
+      margin-top: 30px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.15);
+      margin: 20px;
+      padding: 20px;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+    }
+
+    button {
+      padding: 12px 18px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    .upload-btn { background: white; color: #7A8F65; }
+    .play-btn { background: #D86A7A; color: white; }
+
+    img {
+      width: 100%;
+      border-radius: 12px;
+    }
+
+    #gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    input {
+      margin: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>IKLIL ❤️ LYIN</h1>
+<p>18 July 2026</p>
+<p>#IklilforLyin</p>
+
+<!-- 🎵 MUSIC -->
+<div class="card">
+  <h3>Wedding Music 🎹</h3>
+  <audio id="music" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_d7b3c7f4a6.mp3?filename=romantic-piano-ambient-112191.mp3">
+  </audio>
+
+  <button class="play-btn" onclick="document.getElementById('music').play()">
+    ▶ Play Music
+  </button>
+</div>
+
+<!-- 📸 UPLOAD -->
+<div class="card">
+  <h3>Upload Your Photos 📸</h3>
+
+  <input type="file" id="fileInput" accept="image/*">
+  <br>
+  <button class="upload-btn" onclick="uploadImage()">Upload</button>
+
+  <p id="status"></p>
+</div>
+
+<!-- 🖼 GALLERY -->
+<div class="card">
+  <h3>Live Gallery 🖼</h3>
+  <div id="gallery"></div>
+</div>
+
+<!-- 💌 WISHES -->
+<div class="card">
+  <h3>Leave a Wish 💌</h3>
+
+  <input id="wishInput" placeholder="Write your message..." style="width:90%;padding:10px;border-radius:10px;border:none;">
+  <br><br>
+  <button onclick="sendWish()">Send</button>
+
+  <div id="wishes"></div>
+</div>
+
+<script type="module">
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+  // 🔥 YOUR SUPABASE INFO HERE
+  const SUPABASE_URL = "YOUR_SUPABASE_URL";
+  const SUPABASE_KEY = "YOUR_SUPABASE_ANON_KEY";
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  const bucket = "wedding-photos";
+
+  // 📸 UPLOAD IMAGE
+  window.uploadImage = async function () {
+    const file = document.getElementById("fileInput").files[0];
+    const status = document.getElementById("status");
+
+    if (!file) return alert("Select a photo");
+
+    status.innerText = "Uploading... 💖";
+
+    const fileName = Date.now() + "-" + file.name;
+
+    const { error } = await supabase.storage
+      .from(bucket)
+      .upload(fileName, file);
+
+    if (error) {
+      status.innerText = "Upload failed ❌";
+      return;
+    }
+
+    status.innerText = "Uploaded 🎉";
+    loadImages();
+  };
+
+  // 🖼 LOAD GALLERY
+  async function loadImages() {
+    const { data } = await supabase.storage.from(bucket).list();
+
+    const gallery = document.getElementById("gallery");
+    gallery.innerHTML = "";
+
+    data.forEach(file => {
+      const url = supabase.storage.from(bucket).getPublicUrl(file.name).data.publicUrl;
+
+      const img = document.createElement("img");
+      img.src = url;
+
+      gallery.appendChild(img);
+    });
+  }
+
+  loadImages();
+
+  // 💌 WISHES (simple local version)
+  window.sendWish = function () {
+    const input = document.getElementById("wishInput");
+    const div = document.getElementById("wishes");
+
+    const msg = document.createElement("p");
+    msg.innerText = "💌 " + input.value;
+
+    div.appendChild(msg);
+    input.value = "";
+  };
+</script>
+
+</body>
+</html>
